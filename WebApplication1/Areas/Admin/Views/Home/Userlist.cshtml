@@ -1,0 +1,24 @@
+﻿@model List<UserViewModel>
+
+<h1>Userlist</h1>
+<hr />
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">UserName</th>
+            <th scope="col">Email</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var userViewModel in Model)
+        {
+            <tr>
+                <td>@userViewModel.Id</td>
+                <td>@userViewModel.UserName</td>
+                <td>@userViewModel.Email</td>
+            </tr>
+        }
+    </tbody>
+</table>
