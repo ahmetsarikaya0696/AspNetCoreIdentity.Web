@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
-using WebApplication1.Models;
+using AspNetCoreIdentity.Web.Models;
 
-namespace WebApplication1.Controllers
+namespace AspNetCoreIdentity.Web.Controllers
 {
     public class HomeController : Controller
     {
@@ -19,6 +19,11 @@ namespace WebApplication1.Controllers
         }
 
         public IActionResult Privacy()
+        {
+            return View();
+        }
+
+        public IActionResult SignUp()
         {
             return View();
         }
