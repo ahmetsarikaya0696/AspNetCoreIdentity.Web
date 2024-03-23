@@ -35,6 +35,8 @@ namespace AspNetCoreIdentity.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> SignUp(SignUpViewModel signUpViewModel)
         {
+            if (!ModelState.IsValid) return View(signUpViewModel);
+
             AppUser newUser = new() { UserName = signUpViewModel.UserName, Email = signUpViewModel.Email };
             IdentityResult identityResult = await _userManager.CreateAsync(newUser, signUpViewModel.Password);
 

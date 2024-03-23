@@ -3,22 +3,26 @@
     ViewData["Title"] = "SignUp";
 }
 
-@if (TempData["SuccessMessage"] != null)
-{
-<div class="alert alert-success" role="alert">
-    @TempData["SuccessMessage"]
-</div>
-}
-
 <div class="row">
     <div class="col-md-6 offset-md-3">
         <h2>Kullanıcı Kayıt Formu</h2>
         <hr />
+
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="alert alert-success" role="alert">
+                @TempData["SuccessMessage"]
+            </div>
+        }
+
+        <div class="alert alert-danger" asp-validation-summary="ModelOnly"></div>
+
         <form asp-controller="Home" asp-action="SignUp" method="post">
             <div class="row mb-3">
                 <label asp-for="UserName" class="col-md-4 col-form-label"></label>
                 <div class="col-md-8">
                     <input asp-for="UserName" class="form-control">
+                    <span class="text text-danger" asp-validation-for="UserName"></span>
                 </div>
             </div>
 
@@ -26,6 +30,7 @@
                 <label asp-for="Email" class="col-md-4 col-form-label"></label>
                 <div class="col-md-8">
                     <input type="email" asp-for="Email" class="form-control">
+                    <span class="text text-danger" asp-validation-for="Email"></span>
                 </div>
             </div>
 
@@ -33,6 +38,7 @@
                 <label asp-for="Password" class="col-md-4 col-form-label"></label>
                 <div class="col-md-8">
                     <input type="password" asp-for="Password" class="form-control">
+                    <span class="text text-danger" asp-validation-for="Password"></span>
                 </div>
             </div>
 
@@ -40,6 +46,7 @@
                 <label asp-for="PasswordConfirm" class="col-md-4 col-form-label"></label>
                 <div class="col-md-8">
                     <input type="password" asp-for="PasswordConfirm" class="form-control">
+                    <span class="text text-danger" asp-validation-for="PasswordConfirm"></span>
                 </div>
             </div>
 
