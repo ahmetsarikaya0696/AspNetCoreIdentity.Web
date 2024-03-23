@@ -3,11 +3,18 @@
     ViewData["Title"] = "SignUp";
 }
 
+@if (TempData["SuccessMessage"] != null)
+{
+<div class="alert alert-success" role="alert">
+    @TempData["SuccessMessage"]
+</div>
+}
+
 <div class="row">
     <div class="col-md-6 offset-md-3">
         <h2>Kullanıcı Kayıt Formu</h2>
         <hr />
-        <form>
+        <form asp-controller="Home" asp-action="SignUp" method="post">
             <div class="row mb-3">
                 <label asp-for="UserName" class="col-md-4 col-form-label"></label>
                 <div class="col-md-8">
