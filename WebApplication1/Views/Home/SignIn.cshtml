@@ -28,9 +28,14 @@
             </div>
 
             <div class="row mb-3">
-                <div class="offset-md-4 col-md-8">
-                    <input type="checkbox" asp-for="RememberMe" class="form-check-input">
-                    <label asp-for="RememberMe" class="col-md-4 col-form-check-label"></label>
+                <div class="offset-md-4 col-md-8 d-flex">
+                    <div class="w-100">
+                        <input type="checkbox" asp-for="RememberMe" class="form-check-input">
+                        <label asp-for="RememberMe" class="col-md-4 col-form-check-label"></label>
+                    </div>
+                    <div class="w-50">
+                        <a asp-controller="Home" asp-action="SignUp">Kayıt Ol</a>
+                    </div>
                 </div>
             </div>
 
@@ -40,6 +45,10 @@
                 </div>
             </div>
 
+            <div class="row mb-3">
+                <div class="col-md-8 offset-md-4">
+                </div>
+            </div>
         </form>
     </div>
 </div>
