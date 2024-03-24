@@ -1,9 +1,11 @@
 ﻿using AspNetCoreIdentity.Web.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AspNetCoreIdentity.Web.Controllers
 {
+    [Authorize]
     public class MemberController : Controller
     {
         private readonly SignInManager<AppUser> _signInManager;
@@ -16,6 +18,11 @@ namespace AspNetCoreIdentity.Web.Controllers
         public async Task Logout()
         {
             await _signInManager.SignOutAsync();
+        }
+
+        public IActionResult Index()
+        {
+            return View();
         }
     }
 }
