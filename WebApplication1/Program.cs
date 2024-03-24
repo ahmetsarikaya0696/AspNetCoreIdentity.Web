@@ -23,6 +23,7 @@ builder.Services.ConfigureApplicationCookie(options =>
     cookieBuilder.Name = "identityCookie";
 
     options.LoginPath = new PathString("/Home/SignIn");
+    options.LogoutPath = new PathString("/Member/Logout");
 
     options.Cookie = cookieBuilder;
 
