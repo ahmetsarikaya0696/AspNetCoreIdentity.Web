@@ -75,15 +75,23 @@ namespace AspNetCoreIdentity.Web.Controllers
                 return View();
             }
 
-            var signInResult = await _signInManager.PasswordSignInAsync(user, signInViewModel.Password, signInViewModel.RememberMe, false);
+            var signInResult = await _signInManager.PasswordSignInAsync(user, signInViewModel.Password, signInViewModel.RememberMe, true);
 
             if (signInResult.Succeeded)
             {
                 return Redirect(returnUrl);
             }
 
+            if (signInResult.IsLockedOut)
+            {
+                ModelState.AddModelError(string.Empty, $"{user.LockoutEnd.Value:dd.MM.yyyy HH:mm} tarihine kadar giriþ yapamayacaksýnýz");
+
+                return View();
+            }
+
             ModelState.AddModelError(string.Empty, "E-posta veya þifre yanlýþ!");
-            
+            ModelState.AddModelError(string.Empty, $"Baþarýsýz giriþ sayýsý : {await _userManager.GetAccessFailedCountAsync(user)}");
+
             return View();
         }
 
