@@ -8,13 +8,6 @@
         <h2>Kullanıcı Giriş</h2>
         <hr />
 
-        @if (TempData["SuccessMessage"] != null)
-        {
-            <div class="alert alert-success" role="alert">
-                @TempData["SuccessMessage"]
-            </div>
-        }
-
         <div class="alert alert-danger" asp-validation-summary="ModelOnly"></div>
 
         <form asp-controller="Home" asp-action="SignIn" method="post">
