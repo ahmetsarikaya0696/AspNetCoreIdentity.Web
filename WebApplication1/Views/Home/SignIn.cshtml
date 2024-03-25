@@ -33,8 +33,13 @@
                         <input type="checkbox" asp-for="RememberMe" class="form-check-input">
                         <label asp-for="RememberMe" class="col-md-4 col-form-check-label"></label>
                     </div>
-                    <div class="w-50">
-                        <a asp-controller="Home" asp-action="SignUp">Kayıt Ol</a>
+                    <div class="w-50 d-flex flex-column">
+                        <div>
+                            <a asp-controller="Home" asp-action="SignUp">Kayıt Ol</a>
+                        </div>
+                        <div>
+                            <a asp-controller="Home" asp-action="ResetPassword">Şifremi Unuttum</a>
+                        </div>
                     </div>
                 </div>
             </div>
