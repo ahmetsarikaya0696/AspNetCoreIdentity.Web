@@ -95,7 +95,7 @@ namespace AspNetCoreIdentity.Web.Controllers
             return View();
         }
 
-        public IActionResult ResetPassword()
+        public IActionResult ForgetPassword()
         {
             return View();
         }
