@@ -3,6 +3,7 @@ using System.Diagnostics;
 using AspNetCoreIdentity.Web.Models;
 using AspNetCoreIdentity.Web.ViewModels;
 using Microsoft.AspNetCore.Identity;
+using AspNetCoreIdentity.Web.Services;
 
 namespace AspNetCoreIdentity.Web.Controllers
 {
@@ -11,12 +12,14 @@ namespace AspNetCoreIdentity.Web.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
+        private readonly IEmailService _emailService;
 
-        public HomeController(ILogger<HomeController> logger, UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
+        public HomeController(ILogger<HomeController> logger, UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IEmailService emailService)
         {
             _logger = logger;
             _userManager = userManager;
             _signInManager = signInManager;
+            _emailService = emailService;
         }
 
         public IActionResult Index()
@@ -98,6 +101,27 @@ namespace AspNetCoreIdentity.Web.Controllers
         public IActionResult ForgetPassword()
         {
             return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ForgetPassword(ForgetPasswordViewModel forgetPasswordViewModel)
+        {
+            var user = await _userManager.FindByEmailAsync(forgetPasswordViewModel.Email);
+
+            if (user == null)
+            {
+                ModelState.AddModelError(string.Empty, "Bu e-posta adresine ait kullanýcý bulunamadý!");
+                return View();
+            }
+
+            string resetPasswordToken = await _userManager.GeneratePasswordResetTokenAsync(user);
+            string resetPasswordLink = Url.Action("ResetPassword", "Home", new { userId = user.Id, token = resetPasswordToken }, HttpContext.Request.Scheme);
+
+            await _emailService.SendResetPasswordEmailAsync(resetPasswordLink, user.Email);
+
+            TempData["SuccessMessage"] = "Þifre yenileme linki e-posta adresinize gönderildi";
+
+            return RedirectToAction(nameof(ForgetPassword));
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
