@@ -16,6 +16,12 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("SqlCon"));
 });
 
+// Security Stamp
+builder.Services.Configure<SecurityStampValidatorOptions>(options =>
+{
+    options.ValidationInterval = TimeSpan.FromMinutes(30); // 30 dakika 1 security stamp ' i kontrol eder
+});
+
 // Options Pattern
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
 
