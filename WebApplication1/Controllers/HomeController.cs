@@ -124,6 +124,46 @@ namespace AspNetCoreIdentity.Web.Controllers
             return RedirectToAction(nameof(ForgetPassword));
         }
 
+        public IActionResult ResetPassword(string userId, string token)
+        {
+            TempData["userId"] = userId;
+            TempData["token"] = token;
+
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ResetPassword(ResetPasswordViewModel resetPasswordViewModel)
+        {
+            var userId = TempData["userId"].ToString();
+            var token = TempData["token"].ToString();
+
+            if (userId == null || token == null) throw new Exception("Bir hata oluþtu!");
+
+
+            var user = await _userManager.FindByIdAsync(userId);
+
+            if (user == null)
+            {
+                ModelState.AddModelError(string.Empty, "Belirtilen ID'ye sahip kullanýcý bulunamadý!");
+                return View();
+            }
+
+            var result = await _userManager.ResetPasswordAsync(user, token, resetPasswordViewModel.Password);
+
+            if (result.Succeeded)
+            {
+                TempData["SuccessMessage"] = "Þifre baþarýyla sýfýrlandý!";
+            }
+
+            foreach (var identityError in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, identityError.Description);
+            }
+
+            return View();
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
