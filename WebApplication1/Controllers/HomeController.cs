@@ -135,8 +135,8 @@ namespace AspNetCoreIdentity.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> ResetPassword(ResetPasswordViewModel resetPasswordViewModel)
         {
-            var userId = TempData["userId"].ToString();
-            var token = TempData["token"].ToString();
+            var userId = TempData["userId"]?.ToString();
+            var token = TempData["token"]?.ToString();
 
             if (userId == null || token == null) throw new Exception("Bir hata oluþtu!");
 
@@ -155,10 +155,12 @@ namespace AspNetCoreIdentity.Web.Controllers
             {
                 TempData["SuccessMessage"] = "Þifre baþarýyla sýfýrlandý!";
             }
-
-            foreach (var identityError in result.Errors)
+            else
             {
-                ModelState.AddModelError(string.Empty, identityError.Description);
+                foreach (var identityError in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, identityError.Description);
+                }
             }
 
             return View();
