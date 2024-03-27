@@ -68,6 +68,8 @@ namespace AspNetCoreIdentity.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> SignIn(SignInViewModel signInViewModel, string returnUrl = null)
         {
+            if (!ModelState.IsValid) return View();
+
             returnUrl = returnUrl ?? Url.Action("Index", "Home");
 
             var user = await _userManager.FindByEmailAsync(signInViewModel.Email);
