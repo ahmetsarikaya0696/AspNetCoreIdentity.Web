@@ -29,5 +29,16 @@ namespace AspNetCoreIdentity.Web.Controllers
             UserInfoViewModel userInfoViewModel = new() { Id = currentUser.Id, UserName = currentUser.UserName, Email = currentUser.Email };
             return View(userInfoViewModel);
         }
+
+        public IActionResult PasswordChange()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult PasswordChange(PasswordChangeViewModel passwordChangeViewModel)
+        {
+            return View();
+        }
     }
 }
