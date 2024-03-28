@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using AspNetCoreIdentity.Web.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace AspNetCoreIdentity.Web.ViewModels
 {
@@ -13,16 +14,17 @@ namespace AspNetCoreIdentity.Web.ViewModels
         [Display(Name = "E-posta")]
         public string Email { get; set; }
 
-        [Display(Name = "E-posta")]
+        [Display(Name = "Şehir")]
         public string City { get; set; }
 
         [Display(Name = "Fotoğraf")]
         public string Picture { get; set; }
 
         [Display(Name = "Doğum Tarihi")]
+        [DataType(DataType.Date)]
         public DateTime? Birthday { get; set; }
 
         [Display(Name = "Cinsiyet")]
-        public int? Gender { get; set; }
+        public Gender Gender { get; set; }
     }
 }

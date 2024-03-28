@@ -1,0 +1,82 @@
+﻿@model UserEditViewModel
+@{
+    ViewData["Title"] = "EditUser";
+}
+
+<div class="row">
+    <div class="col-md-6 offset-md-3">
+        <h2>Profil Güncelle</h2>
+        <hr />
+
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="alert alert-success" role="alert">
+                @TempData["SuccessMessage"]
+            </div>
+        }
+
+        <div class="alert alert-danger" asp-validation-summary="ModelOnly"></div>
+
+        <form asp-controller="Member" asp-action="EditUser" method="post" enctype="multipart/form-data">
+            <div class="row mb-3">
+                <label asp-for="UserName" class="col-md-4 col-form-label"></label>
+                <div class="col-md-8">
+                    <input asp-for="UserName" class="form-control">
+                    <span class="text text-danger" asp-validation-for="UserName"></span>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label asp-for="Email" class="col-md-4 col-form-label"></label>
+                <div class="col-md-8">
+                    <input type="email" asp-for="Email" class="form-control">
+                    <span class="text text-danger" asp-validation-for="Email"></span>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label asp-for="City" class="col-md-4 col-form-label"></label>
+                <div class="col-md-8">
+                    <input asp-for="City" class="form-control">
+                    <span class="text text-danger" asp-validation-for="City"></span>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label asp-for="Picture" class="col-md-4 col-form-label"></label>
+                <div class="col-md-8">
+                    <input type="file" asp-for="Picture" class="form-control">
+                    <span class="text text-danger" asp-validation-for="Picture"></span>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label asp-for="Birthday" class="col-md-4 col-form-label"></label>
+                <div class="col-md-8">
+                    <input asp-for="Birthday" class="form-control">
+                    <span class="text text-danger" asp-validation-for="Birthday"></span>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label asp-for="Gender" class="col-md-4 col-form-label"></label>
+                <div class="col-md-8">
+                    <select asp-for="Gender" class="form-control form-select" asp-items="@ViewBag.Genders"></select>
+                    <span class="text text-danger" asp-validation-for="Gender"></span>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-8 offset-md-4">
+                    <button type="submit" class="btn btn-primary">Güncelle</button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}
+
