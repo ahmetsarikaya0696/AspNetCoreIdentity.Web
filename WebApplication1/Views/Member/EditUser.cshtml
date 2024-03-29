@@ -45,7 +45,7 @@
             <div class="row mb-3">
                 <label asp-for="Picture" class="col-md-4 col-form-label"></label>
                 <div class="col-md-8">
-                    <img alt="Profil Fotoğrafı" width="50" height="50" src="~/user-images/@(string.IsNullOrEmpty(Model.PictureStr) ? "default.png" : @Model.PictureStr)" />
+                    <user-picture picture="@Model.PictureStr" width="75" height="75" />
                     <input type="file" asp-for="Picture" class="form-control">
                     <span class="text text-danger" asp-validation-for="Picture"></span>
                 </div>

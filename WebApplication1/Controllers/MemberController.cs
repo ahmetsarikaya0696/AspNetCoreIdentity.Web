@@ -30,7 +30,7 @@ namespace AspNetCoreIdentity.Web.Controllers
         public async Task<IActionResult> Index()
         {
             var currentUser = await _userManager.FindByNameAsync(User.Identity.Name);
-            UserInfoViewModel userInfoViewModel = new() { Id = currentUser.Id, UserName = currentUser.UserName, Email = currentUser.Email };
+            UserInfoViewModel userInfoViewModel = new() { Id = currentUser.Id, UserName = currentUser.UserName, Email = currentUser.Email, Picture = currentUser.Picture };
             return View(userInfoViewModel);
         }
 
