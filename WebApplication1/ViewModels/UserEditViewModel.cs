@@ -18,7 +18,9 @@ namespace AspNetCoreIdentity.Web.ViewModels
         public string City { get; set; }
 
         [Display(Name = "Fotoğraf")]
-        public string Picture { get; set; }
+        public IFormFile Picture { get; set; }
+
+        public string PictureStr { get; set; }
 
         [Display(Name = "Doğum Tarihi")]
         [DataType(DataType.Date)]

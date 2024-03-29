@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.FileProviders;
 
 namespace AspNetCoreIdentity.Web.Controllers
 {
@@ -12,11 +13,13 @@ namespace AspNetCoreIdentity.Web.Controllers
     {
         private readonly SignInManager<AppUser> _signInManager;
         private readonly UserManager<AppUser> _userManager;
+        private readonly IFileProvider _fileProvider;
 
-        public MemberController(SignInManager<AppUser> signInManager, UserManager<AppUser> userManager)
+        public MemberController(SignInManager<AppUser> signInManager, UserManager<AppUser> userManager, IFileProvider fileProvider)
         {
             _signInManager = signInManager;
             _userManager = userManager;
+            _fileProvider = fileProvider;
         }
 
         public async Task Logout()
@@ -83,8 +86,58 @@ namespace AspNetCoreIdentity.Web.Controllers
                 Birthday = user.Birthday,
                 City = user.City,
                 Gender = user.Gender,
-                Picture = user.Picture
+                PictureStr = user.Picture
             };
+
+            return View(userEditViewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditUser(UserEditViewModel userEditViewModel)
+        {
+            if (!ModelState.IsValid) return View();
+
+            var currentUser = await _userManager.FindByNameAsync(User.Identity.Name);
+
+            currentUser.UserName = userEditViewModel.UserName;
+            currentUser.Email = userEditViewModel.Email;
+            currentUser.City = userEditViewModel.City;
+            currentUser.Gender = userEditViewModel.Gender;
+            currentUser.Birthday = userEditViewModel.Birthday;
+
+            if (userEditViewModel.Picture != null && userEditViewModel.Picture.Length > 0)
+            {
+                var wwwrootFolder = _fileProvider.GetDirectoryContents("wwwroot");
+
+                var fileExtension = Path.GetExtension(userEditViewModel.Picture.FileName);
+                var fileName = $"{Guid.NewGuid()}{fileExtension}";
+                var filePath = Path.Combine(wwwrootFolder.First(x => x.Name == "user-images").PhysicalPath, fileName);
+
+                using var stream = new FileStream(filePath, FileMode.Create);
+
+                await userEditViewModel.Picture.CopyToAsync(stream);
+
+                currentUser.Picture = fileName;
+                userEditViewModel.PictureStr = currentUser.Picture;
+            }
+
+            var identityResult = await _userManager.UpdateAsync(currentUser);
+
+            if (identityResult.Succeeded)
+            {
+                TempData["SuccessMessage"] = "Bilgileriniz başarıyla güncellendi";
+                await _userManager.UpdateSecurityStampAsync(currentUser);
+                await _signInManager.SignOutAsync();
+                await _signInManager.SignInAsync(currentUser, true);
+
+                ViewBag.Genders = new SelectList(Enum.GetNames(typeof(Gender)));
+                return View(userEditViewModel);
+            }
+
+            foreach (var error in identityResult.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error.Description);
+            }
 
             return View(userEditViewModel);
         }
