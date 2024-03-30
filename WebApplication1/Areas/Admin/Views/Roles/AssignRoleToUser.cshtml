@@ -1,0 +1,53 @@
+﻿@model List<AssignRoleToUserViewModel>
+@{
+    ViewData["Title"] = "AssignRoleToUser";
+}
+
+
+<div class="row">
+    <div class="col-md-6 offset-md-3">
+        <h1>Rol Yetkilendirme Sayfası</h1>
+        <hr />
+
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="alert alert-success" role="alert">
+                @TempData["SuccessMessage"]
+            </div>
+        }
+
+        @if (TempData["ErrorMessages"] != null && ((List<string>)TempData["ErrorMessages"])?.Count > 0)
+        {
+            <div class="alert alert-danger" role="alert">
+                <ul>
+                    @foreach (var errorMessage in (List<string>)TempData["ErrorMessages"])
+                    {
+                        <li>@errorMessage</li>
+                    }
+                </ul>
+            </div>
+        }
+
+        <form asp-area="Admin" asp-controller="Roles" asp-action="AssignRoleToUser" asp-route-userId="@ViewBag.UserId" method="post">
+            @for (int i = 0; i < Model.Count; i++)
+            {
+                <div class="mb-3 form-check">
+                    <input type="hidden" asp-for="@Model[i].Id" />
+                    <input type="hidden" asp-for="@Model[i].Name" />
+
+                    <input type="checkbox" class="form-check-input" asp-for="@Model[i].Exist">
+                    <label asp-for="@Model[i].Exist" class="form-check-label">@Model[i].Name</label>
+                </div>
+            }
+
+            <div class="form-group mt-3">
+                <button class="btn btn-primary" type="submit">Rol Ata</button>
+            </div>
+
+            <div class="form-group mt-3">
+                <a asp-controller="Home" asp-action="Userlist">&laquo; Üye Listesine Geri Dön</a>
+            </div>
+
+        </form>
+    </div>
+</div>

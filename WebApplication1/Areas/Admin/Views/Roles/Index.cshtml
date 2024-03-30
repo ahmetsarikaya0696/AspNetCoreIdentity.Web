@@ -13,7 +13,7 @@
     </div>
 }
 
-@if (TempData["ErrorMessages"] != null)
+@if (TempData["ErrorMessages"] != null && ((List<string>)TempData["ErrorMessages"]).Count > 0)
 {
     <div class="alert alert-danger" role="alert">
         <ul>

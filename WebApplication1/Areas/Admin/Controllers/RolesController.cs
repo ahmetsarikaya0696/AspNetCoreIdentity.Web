@@ -104,5 +104,64 @@ namespace AspNetCoreIdentity.Web.Areas.Admin.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+
+        public async Task<IActionResult> AssignRoleToUser(string id)
+        {
+            var currentUser = await _userManager.FindByIdAsync(id);
+
+            if (currentUser == null) throw new Exception("Belirtilen ID'ye sahip kullanıcı bulunamadı!");
+
+            ViewBag.UserId = id;
+
+            var roles = await _roleManager.Roles.ToListAsync();
+
+            var assignRoleToUserViewModelList = new List<AssignRoleToUserViewModel>();
+
+            foreach (var role in roles)
+            {
+                var assignRoleToUserViewModel = new AssignRoleToUserViewModel()
+                {
+                    Id = role.Id,
+                    Name = role.Name,
+                    Exist = await _userManager.IsInRoleAsync(currentUser, role.Name)
+                };
+
+                assignRoleToUserViewModelList.Add(assignRoleToUserViewModel);
+            }
+
+            return View(assignRoleToUserViewModelList);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AssignRoleToUser(string userId, List<AssignRoleToUserViewModel> assignRoleToUserViewModelList)
+        {
+            List<string> errorMessages = new();
+            var currentUser = await _userManager.FindByIdAsync(userId);
+
+            foreach (var assignRoleToUserViewModel in assignRoleToUserViewModelList)
+            {
+                bool isInRole = await _userManager.IsInRoleAsync(currentUser, assignRoleToUserViewModel.Name);
+                if (assignRoleToUserViewModel.Exist && !isInRole)
+                {
+                    var result = await _userManager.AddToRoleAsync(currentUser, assignRoleToUserViewModel.Name);
+
+                    if (!result.Succeeded) errorMessages.AddRange(result.Errors.Select(x => x.Description));
+
+                }
+                else if (!assignRoleToUserViewModel.Exist && isInRole)
+                {
+                    var result = await _userManager.RemoveFromRoleAsync(currentUser, assignRoleToUserViewModel.Name);
+
+                    if (!result.Succeeded) errorMessages.AddRange(result.Errors.Select(x => x.Description));
+                }
+            }
+
+            TempData["ErrorMessages"] = errorMessages;
+
+            if (errorMessages.Count == 0) TempData["SuccessMessage"] = "Yetki atama işlemi başarıyla gerçekleştirildi!";
+
+
+            return View(assignRoleToUserViewModelList);
+        }
     }
 }
