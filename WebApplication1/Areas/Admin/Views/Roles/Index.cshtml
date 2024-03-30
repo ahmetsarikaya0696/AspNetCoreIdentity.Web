@@ -2,8 +2,16 @@
 @{
     ViewData["Title"] = "Index";
 }
+<div class="mb-3">
+    <a class="btn btn-primary" asp-area="Admin" asp-controller="Roles" asp-action="AddRole">Rol Ekle</a>
+</div>
 
-<a class="btn btn-primary" asp-area="Admin" asp-controller="Roles" asp-action="AddRole">Rol Ekle</a>
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        @TempData["SuccessMessage"]
+    </div>
+}
 
 <h1>Rol Listesi</h1>
 <hr />
@@ -13,6 +21,7 @@
         <tr>
             <th scope="col">Id</th>
             <th scope="col">Name</th>
+            <th scope="col"></th>
         </tr>
     </thead>
     <tbody>
@@ -21,6 +30,7 @@
             <tr>
                 <td>@roleViewModel.Id</td>
                 <td>@roleViewModel.Name</td>
+                <td><a asp-area="Admin" asp-controller="Roles" asp-action="UpdateRole" asp-route-id="@roleViewModel.Id">Güncelle</a></td>
             </tr>
         }
     </tbody>
