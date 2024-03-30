@@ -82,5 +82,27 @@ namespace AspNetCoreIdentity.Web.Areas.Admin.Controllers
             TempData["SuccessMessage"] = "Rol başarıyla güncellendi!";
             return RedirectToAction(nameof(Index));
         }
+
+        public async Task<IActionResult> DeleteRole(string id)
+        {
+            var role = await _roleManager.FindByIdAsync(id);
+
+            if (role == null) throw new Exception("Belirtilen ID'ye sahip rol bulunamadı!");
+
+            var result = await _roleManager.DeleteAsync(role);
+
+            if (!result.Succeeded)
+            {
+                var errorMessages = new List<string>();
+                errorMessages.AddRange(result.Errors.Select(error => error.Description));
+                TempData["ErrorMessages"] = errorMessages;
+            }
+            else
+            {
+                TempData["SuccessMessage"] = "Rol başarıyla silindi!";
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

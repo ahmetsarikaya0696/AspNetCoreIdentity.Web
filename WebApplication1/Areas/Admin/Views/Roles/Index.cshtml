@@ -13,6 +13,18 @@
     </div>
 }
 
+@if (TempData["ErrorMessages"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        <ul>
+            @foreach (var errorMessage in (List<string>)TempData["ErrorMessages"])
+            {
+                <li>@errorMessage</li>
+            }
+        </ul>
+    </div>
+}
+
 <h1>Rol Listesi</h1>
 <hr />
 
@@ -30,7 +42,12 @@
             <tr>
                 <td>@roleViewModel.Id</td>
                 <td>@roleViewModel.Name</td>
-                <td><a asp-area="Admin" asp-controller="Roles" asp-action="UpdateRole" asp-route-id="@roleViewModel.Id">Güncelle</a></td>
+                <td>
+                    <a asp-area="Admin" asp-controller="Roles" asp-action="UpdateRole" asp-route-id="@roleViewModel.Id">Güncelle</a>
+                    <form asp-area="Admin" asp-controller="Roles" asp-action="DeleteRole" asp-route-id="@roleViewModel.Id" method="post">
+                        <button class="btn btn-link" type="submit">Sil</button>
+                    </form>
+                </td>
             </tr>
         }
     </tbody>
