@@ -153,5 +153,11 @@ namespace AspNetCoreIdentity.Web.Controllers
             var userClaims = User.Claims.Select(x => new ClaimViewModel() { Type = x.Type, Value = x.Value, Issuer = x.Issuer }).ToList();
             return View(userClaims);
         }
+
+        [Authorize(Policy = "AnkaraPolicy")]
+        public IActionResult Ankara()
+        {
+            return View();
+        }
     }
 }
