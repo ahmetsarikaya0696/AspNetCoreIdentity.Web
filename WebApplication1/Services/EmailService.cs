@@ -1,9 +1,7 @@
 ﻿
 using AspNetCoreIdentity.Web.OptionsModels;
 using MailKit.Net.Smtp;
-using MailKit.Security;
 using Microsoft.Extensions.Options;
-using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 using MimeKit;
 
 namespace AspNetCoreIdentity.Web.Services

@@ -12,7 +12,7 @@ namespace AspNetCoreIdentity.Web.ViewModels
         [Required(ErrorMessage = "Şifre alanı boş bırakılamaz")]
         [Display(Name = "Şifre")]
         public string Password { get; set; }
-       
+
         [Display(Name = "Beni hatırla")]
         public bool RememberMe { get; set; }
     }

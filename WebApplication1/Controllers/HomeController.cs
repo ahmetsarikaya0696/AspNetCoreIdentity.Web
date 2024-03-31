@@ -1,9 +1,9 @@
-using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
 using AspNetCoreIdentity.Web.Models;
+using AspNetCoreIdentity.Web.Services;
 using AspNetCoreIdentity.Web.ViewModels;
 using Microsoft.AspNetCore.Identity;
-using AspNetCoreIdentity.Web.Services;
+using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
 
 namespace AspNetCoreIdentity.Web.Controllers
 {

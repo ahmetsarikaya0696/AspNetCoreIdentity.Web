@@ -1,9 +1,9 @@
-using Microsoft.EntityFrameworkCore;
-using AspNetCoreIdentity.Web.Models;
 using AspNetCoreIdentity.Web.Extensions;
-using Microsoft.AspNetCore.Identity;
+using AspNetCoreIdentity.Web.Models;
 using AspNetCoreIdentity.Web.OptionsModels;
 using AspNetCoreIdentity.Web.Services;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
