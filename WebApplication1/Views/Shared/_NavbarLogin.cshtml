@@ -1,4 +1,5 @@
-﻿<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+﻿@using System.Security.Claims
+<ul class="navbar-nav me-auto mb-2 mb-lg-0">
     @if (User.Identity.IsAuthenticated)
     {
         <li class="nav-item dropdown">
@@ -15,6 +16,12 @@
                 <li>
                     <a asp-controller="Member" asp-action="EditUser" class="dropdown-item">Profil Güncelle</a>
                 </li>
+                @if (User.HasClaim(x => x.Type == ClaimTypes.Role && x.Value == "admin"))
+                {
+                    <li>
+                        <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="dropdown-item">Admin Olarak Devam Et</a>
+                    </li>
+                }
                 <li>
                     <a asp-controller="Member" asp-action="Logout" asp-route-returnurl="/Home/Index" class="dropdown-item">Çıkış</a>
                 </li>
