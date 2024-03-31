@@ -147,5 +147,11 @@ namespace AspNetCoreIdentity.Web.Controllers
             ViewBag.Message = "Bu sayfayı görmeye yetkiniz bulunmamaktadır.";
             return View();
         }
+
+        public IActionResult Claims()
+        {
+            var userClaims = User.Claims.Select(x => new ClaimViewModel() { Type = x.Type, Value = x.Value, Issuer = x.Issuer }).ToList();
+            return View(userClaims);
+        }
     }
 }

@@ -16,6 +16,9 @@
                 <li>
                     <a asp-controller="Member" asp-action="EditUser" class="dropdown-item">Profil Güncelle</a>
                 </li>
+                <li>
+                    <a asp-controller="Member" asp-action="Claims" class="dropdown-item">Claims</a>
+                </li>
                 @if (User.HasClaim(x => x.Type == ClaimTypes.Role && x.Value == "admin"))
                 {
                     <li>

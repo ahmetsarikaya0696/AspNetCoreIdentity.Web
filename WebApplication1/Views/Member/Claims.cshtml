@@ -1,0 +1,27 @@
+﻿@model List<ClaimViewModel>
+@{
+    ViewData["Title"] = "Claims";
+}
+
+<h1>Claims</h1>
+<hr />
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Type</th>
+            <th scope="col">Value</th>
+            <th scope="col">Issuer</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var claimViewModel in Model)
+        {
+            <tr>
+                <td>@claimViewModel.Type</td>
+                <td>@claimViewModel.Value</td>
+                <td>@claimViewModel.Issuer</td>
+            </tr>
+        }
+    </tbody>
+</table>
