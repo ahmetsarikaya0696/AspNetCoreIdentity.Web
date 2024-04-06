@@ -4,6 +4,7 @@ using AspNetCoreIdentity.Web.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using System.Security.Claims;
 
 namespace AspNetCoreIdentity.Web.Controllers
 {
@@ -45,19 +46,32 @@ namespace AspNetCoreIdentity.Web.Controllers
             AppUser newUser = new() { UserName = signUpViewModel.UserName, Email = signUpViewModel.Email };
             IdentityResult identityResult = await _userManager.CreateAsync(newUser, signUpViewModel.Password);
 
-            if (identityResult.Succeeded)
+            if (!identityResult.Succeeded)
             {
-                TempData["SuccessMessage"] = "Üyelik kayýt iþlemi baþarýyla gerçekleþtirildi.";
-
-                return RedirectToAction(nameof(SignUp));
+                foreach (var error in identityResult.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+                return View();
             }
 
-            foreach (var error in identityResult.Errors)
+            // Kullanýcý üye olduktan 10 gün sonrasýna kadar ücretsiz kullanabileceði bir sayfa için claim ekleme iþlemi
+            var exchangeExpireDateClaim = new Claim("ExchangeExpireDate", DateTime.Now.AddDays(10).ToString());
+            var user = await _userManager.FindByNameAsync(signUpViewModel.UserName);
+            var claimIdentityResult = await _userManager.AddClaimAsync(user, exchangeExpireDateClaim);
+
+            if (!claimIdentityResult.Succeeded)
             {
-                ModelState.AddModelError(string.Empty, error.Description);
+                foreach (var error in claimIdentityResult.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+                return View();
             }
 
-            return View();
+            TempData["SuccessMessage"] = "Üyelik kayýt iþlemi baþarýyla gerçekleþtirildi.";
+
+            return RedirectToAction(nameof(SignUp));
         }
 
         public IActionResult SignIn()
