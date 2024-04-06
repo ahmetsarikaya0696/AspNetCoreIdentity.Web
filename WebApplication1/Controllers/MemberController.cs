@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.FileProviders;
+using System.Security.Claims;
 
 namespace AspNetCoreIdentity.Web.Controllers
 {
@@ -128,7 +129,15 @@ namespace AspNetCoreIdentity.Web.Controllers
                 TempData["SuccessMessage"] = "Bilgileriniz başarıyla güncellendi";
                 await _userManager.UpdateSecurityStampAsync(currentUser);
                 await _signInManager.SignOutAsync();
-                await _signInManager.SignInAsync(currentUser, true);
+
+                if (userEditViewModel.Birthday.HasValue)
+                {
+                    await _signInManager.SignInWithClaimsAsync(currentUser, true, [new Claim("Birthday", currentUser.Birthday.Value.ToString())]);
+                }
+                else
+                {
+                    await _signInManager.SignInAsync(currentUser, true);
+                }
 
                 ViewBag.Genders = new SelectList(Enum.GetNames(typeof(Gender)));
                 return View(userEditViewModel);
@@ -163,6 +172,12 @@ namespace AspNetCoreIdentity.Web.Controllers
 
         [Authorize(Policy = "ExchangePolicy")]
         public IActionResult Exchange()
+        {
+            return View();
+        }
+
+        [Authorize(Policy = "ViolancePolicy")]
+        public IActionResult Violance()
         {
             return View();
         }

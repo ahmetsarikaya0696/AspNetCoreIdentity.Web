@@ -96,22 +96,27 @@ namespace AspNetCoreIdentity.Web.Controllers
 
             var signInResult = await _signInManager.PasswordSignInAsync(user, signInViewModel.Password, signInViewModel.RememberMe, true);
 
-            if (signInResult.Succeeded)
-            {
-                return Redirect(returnUrl);
-            }
-
             if (signInResult.IsLockedOut)
             {
-                ModelState.AddModelError(string.Empty, $"{user.LockoutEnd.Value:dd.MM.yyyy HH:mm} tarihine kadar giriþ yapamayacaksýnýz");
+                ModelState.AddModelError(string.Empty, "Hesabýnýza giriþ 3 dakikalýðýna askýya alýnmýþtýr! 3 dakika sonra tekrar giriþ yapmayý deneyiniz.");
 
                 return View();
             }
 
-            ModelState.AddModelError(string.Empty, "E-posta veya þifre yanlýþ!");
-            ModelState.AddModelError(string.Empty, $"Baþarýsýz giriþ sayýsý : {await _userManager.GetAccessFailedCountAsync(user)}");
+            if (!signInResult.Succeeded)
+            {
+                ModelState.AddModelError(string.Empty, "E-posta veya þifre yanlýþ!");
+                ModelState.AddModelError(string.Empty, $"Baþarýsýz giriþ sayýsý : {await _userManager.GetAccessFailedCountAsync(user)}");
 
-            return View();
+                return View();
+            }
+
+            if (user.Birthday.HasValue)
+            {
+                await _signInManager.SignInWithClaimsAsync(user, signInViewModel.RememberMe, [new Claim("Birthday", user.Birthday.Value.ToString())]);
+            }
+
+            return Redirect(returnUrl);
         }
 
         public IActionResult ForgetPassword()
