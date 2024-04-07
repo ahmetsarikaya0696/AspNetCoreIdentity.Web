@@ -1,5 +1,6 @@
-﻿using AspNetCoreIdentity.Web.Models;
-using AspNetCoreIdentity.Web.ViewModels;
+﻿using AspNetCoreIdentity.Core.Models;
+using AspNetCoreIdentity.Core.ViewModels;
+using AspNetCoreIdentity.Web.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;

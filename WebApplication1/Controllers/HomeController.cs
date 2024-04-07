@@ -1,6 +1,6 @@
+using AspNetCoreIdentity.Core.ViewModels;
 using AspNetCoreIdentity.Web.Models;
 using AspNetCoreIdentity.Web.Services;
-using AspNetCoreIdentity.Web.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;

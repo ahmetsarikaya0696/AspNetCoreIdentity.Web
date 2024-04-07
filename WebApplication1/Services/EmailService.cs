@@ -1,5 +1,5 @@
 ﻿
-using AspNetCoreIdentity.Web.OptionsModels;
+using AspNetCoreIdentity.Core.OptionsModels;
 using MailKit.Net.Smtp;
 using Microsoft.Extensions.Options;
 using MimeKit;

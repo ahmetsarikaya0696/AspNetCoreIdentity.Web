@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using AspNetCoreIdentity.Core.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace AspNetCoreIdentity.Web.Models
 {

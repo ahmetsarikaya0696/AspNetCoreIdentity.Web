@@ -1,4 +1,4 @@
-﻿namespace AspNetCoreIdentity.Web.OptionsModels
+﻿namespace AspNetCoreIdentity.Core.OptionsModels
 {
     public class EmailSettings
     {

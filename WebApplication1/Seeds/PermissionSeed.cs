@@ -1,5 +1,5 @@
-﻿using AspNetCoreIdentity.Web.Models;
-using AspNetCoreIdentity.Web.Permissions;
+﻿using AspNetCoreIdentity.Core.Permissions;
+using AspNetCoreIdentity.Web.Models;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 

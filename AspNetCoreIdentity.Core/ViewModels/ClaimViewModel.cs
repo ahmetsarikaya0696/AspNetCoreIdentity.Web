@@ -1,4 +1,4 @@
-﻿namespace AspNetCoreIdentity.Web.ViewModels
+﻿namespace AspNetCoreIdentity.Core.ViewModels
 {
     public class ClaimViewModel
     {

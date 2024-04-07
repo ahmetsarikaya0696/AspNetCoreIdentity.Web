@@ -25,7 +25,7 @@ namespace AspNetCoreIdentity.Web.Requirements
                 context.Fail();
                 return Task.CompletedTask;
             }
-            
+
             context.Succeed(requirement);
             return Task.CompletedTask;
         }
