@@ -1,4 +1,5 @@
-﻿
+﻿@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService authorizationService
 @{
     ViewData["Title"] = "Index";
 }
@@ -6,4 +7,25 @@
 <h1>Index</h1>
 
 <p>Permission.Order.Read, Permission.Order.Delete, Permission.Stock.Delete</p>
+
+@if ((await authorizationService.AuthorizeAsync(User, "Permission.Order.Read")).Succeeded)
+{
+    <div class="mb-3">
+        <button class="btn btn-primary">Permission.Order.Read</button>
+    </div>
+}
+@if ((await authorizationService.AuthorizeAsync(User, "Permission.Order.Delete")).Succeeded)
+{
+    <div class="mb-3">
+        <button class="btn btn-primary">Permission.Order.Delete</button>
+    </div>
+}
+
+@if ((await authorizationService.AuthorizeAsync(User, "Permission.Stock.Delete")).Succeeded)
+{
+    <div class="mb-3">
+        <button class="btn btn-primary">Permission.Stock.Delete</button>
+    </div>
+}
+
 
