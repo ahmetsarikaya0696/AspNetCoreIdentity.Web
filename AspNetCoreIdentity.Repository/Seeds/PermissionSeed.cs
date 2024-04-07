@@ -1,9 +1,9 @@
 ﻿using AspNetCoreIdentity.Core.Permissions;
-using AspNetCoreIdentity.Web.Models;
+using AspNetCoreIdentity.Repository.Models;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 
-namespace AspNetCoreIdentity.Web.Seeds
+namespace AspNetCoreIdentity.Repository.Seeds
 {
     public class PermissionSeed
     {
@@ -12,6 +12,12 @@ namespace AspNetCoreIdentity.Web.Seeds
             bool hasBasicRole = await roleManager.RoleExistsAsync("BasicRole");
             bool hasAdvancedRole = await roleManager.RoleExistsAsync("AdvancedRole");
             bool hasAdminRole = await roleManager.RoleExistsAsync("AdminRole");
+            bool hasAdmin = await roleManager.RoleExistsAsync("admin");
+
+            if (!hasAdmin)
+            {
+                await roleManager.CreateAsync(new() { Name = "admin" });
+            }
 
             if (!hasBasicRole)
             {

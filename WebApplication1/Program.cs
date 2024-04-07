@@ -1,10 +1,10 @@
 using AspNetCoreIdentity.Core.OptionsModels;
 using AspNetCoreIdentity.Core.Permissions;
+using AspNetCoreIdentity.Repository.Models;
+using AspNetCoreIdentity.Repository.Seeds;
 using AspNetCoreIdentity.Web.ClaimProviders;
 using AspNetCoreIdentity.Web.Extensions;
-using AspNetCoreIdentity.Web.Models;
 using AspNetCoreIdentity.Web.Requirements;
-using AspNetCoreIdentity.Web.Seeds;
 using AspNetCoreIdentity.Web.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
@@ -20,7 +20,10 @@ builder.Services.AddControllersWithViews();
 // DbContext
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("SqlCon"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("SqlCon"), options =>
+    {
+        options.MigrationsAssembly("AspNetCoreIdentity.Repository");
+    });
 });
 
 // Security Stamp

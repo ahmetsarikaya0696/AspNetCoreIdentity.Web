@@ -1,8 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace AspNetCoreIdentity.Web.Migrations
+namespace AspNetCoreIdentity.Repository.Migrations
 {
     /// <inheritdoc />
     public partial class Initial : Migration
@@ -32,7 +33,7 @@ namespace AspNetCoreIdentity.Web.Migrations
                     City = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Picture = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Birthday = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Gender = table.Column<int>(type: "int", nullable: true),
+                    Gender = table.Column<byte>(type: "tinyint", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),

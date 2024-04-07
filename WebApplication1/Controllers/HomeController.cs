@@ -1,5 +1,5 @@
 using AspNetCoreIdentity.Core.ViewModels;
-using AspNetCoreIdentity.Web.Models;
+using AspNetCoreIdentity.Repository.Models;
 using AspNetCoreIdentity.Web.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
