@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
+using AspNetCoreIdentity.Web.Permissions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -62,6 +63,13 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("ViolancePolicy", policy =>
     {
         policy.AddRequirements(new ViolanceRequirement() { ThresholdAge = 18 });
+    });
+
+    options.AddPolicy("PermissionOrderReadOrderDeleteStockDeletePolicy", policy =>
+    {
+        policy.RequireClaim("Permission", Permission.Order.Read);
+        policy.RequireClaim("Permission", Permission.Order.Delete);
+        policy.RequireClaim("Permission", Permission.Stock.Delete);
     });
 });
 
