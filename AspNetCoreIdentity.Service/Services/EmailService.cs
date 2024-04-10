@@ -1,10 +1,9 @@
-﻿
-using AspNetCoreIdentity.Core.OptionsModels;
+﻿using AspNetCoreIdentity.Core.OptionsModels;
 using MailKit.Net.Smtp;
 using Microsoft.Extensions.Options;
 using MimeKit;
 
-namespace AspNetCoreIdentity.Web.Services
+namespace AspNetCoreIdentity.Service.Services
 {
     public class EmailService : IEmailService
     {

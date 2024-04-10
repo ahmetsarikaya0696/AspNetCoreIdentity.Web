@@ -2,10 +2,10 @@ using AspNetCoreIdentity.Core.OptionsModels;
 using AspNetCoreIdentity.Core.Permissions;
 using AspNetCoreIdentity.Repository.Models;
 using AspNetCoreIdentity.Repository.Seeds;
+using AspNetCoreIdentity.Service.Services;
 using AspNetCoreIdentity.Web.ClaimProviders;
 using AspNetCoreIdentity.Web.Extensions;
 using AspNetCoreIdentity.Web.Requirements;
-using AspNetCoreIdentity.Web.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -49,6 +49,8 @@ builder.Services.AddScoped<IClaimsTransformation, UserClaimProvider>();
 
 builder.Services.AddScoped<IAuthorizationHandler, ExchangeExpireRequirementHandler>();
 builder.Services.AddScoped<IAuthorizationHandler, ViolanceRequirementHandler>();
+
+builder.Services.AddScoped<IMemberService, MemberService>();
 
 // Policy
 builder.Services.AddAuthorization(options =>

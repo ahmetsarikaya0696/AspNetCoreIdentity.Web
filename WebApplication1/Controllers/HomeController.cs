@@ -1,10 +1,12 @@
 using AspNetCoreIdentity.Core.ViewModels;
 using AspNetCoreIdentity.Repository.Models;
-using AspNetCoreIdentity.Web.Services;
+using AspNetCoreIdentity.Service.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.WebUtilities;
 using System.Diagnostics;
 using System.Security.Claims;
+using System.Text;
 
 namespace AspNetCoreIdentity.Web.Controllers
 {
@@ -136,7 +138,9 @@ namespace AspNetCoreIdentity.Web.Controllers
             }
 
             string resetPasswordToken = await _userManager.GeneratePasswordResetTokenAsync(user);
-            string resetPasswordLink = Url.Action("ResetPassword", "Home", new { userId = user.Id, token = resetPasswordToken }, HttpContext.Request.Scheme);
+            string encodedToken = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(resetPasswordToken));
+
+            string resetPasswordLink = Url.Action("ResetPassword", "Home", new { userId = user.Id, token = encodedToken }, HttpContext.Request.Scheme);
 
             await _emailService.SendResetPasswordEmailAsync(resetPasswordLink, user.Email);
 
@@ -157,9 +161,11 @@ namespace AspNetCoreIdentity.Web.Controllers
         public async Task<IActionResult> ResetPassword(ResetPasswordViewModel resetPasswordViewModel)
         {
             var userId = TempData["userId"]?.ToString();
-            var token = TempData["token"]?.ToString();
+            var encodedToken = TempData["token"]?.ToString();
 
-            if (userId == null || token == null) throw new Exception("Bir hata oluþtu!");
+            var decodedToken = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(encodedToken));
+
+            if (userId == null || encodedToken == null) throw new Exception("Bir hata oluþtu!");
 
 
             var user = await _userManager.FindByIdAsync(userId);
@@ -170,7 +176,7 @@ namespace AspNetCoreIdentity.Web.Controllers
                 return View();
             }
 
-            var result = await _userManager.ResetPasswordAsync(user, token, resetPasswordViewModel.Password);
+            var result = await _userManager.ResetPasswordAsync(user, decodedToken, resetPasswordViewModel.Password);
 
             if (result.Succeeded)
             {
